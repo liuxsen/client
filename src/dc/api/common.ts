@@ -3,8 +3,8 @@ import { BaseApi } from './base';
 
 // import { Ireq } from './interface';
 
-export class Shop extends BaseApi {
+export class WorkType extends BaseApi {
   constructor() {
-    super('/api/shop');
+    super('/api/worktype');
   }
 }

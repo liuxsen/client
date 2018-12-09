@@ -2,18 +2,17 @@ import axios from 'axios';
 import Vue from 'vue';
 const vue = new Vue();
 export interface Iparam {
-  method: 'get' | 'post' | 'post' | 'delete';
+  method: 'get' | 'post' | 'put' | 'delete';
   url: string;
-  params?: any;
   data?: any;
 }
 
 // 格式化json => query 参数
 function fnPureFormateObjToParamStr(paramObj: any) {
-  const sdata = [];
-  for (const attr of paramObj) {
-    sdata.push(`${attr}=${paramObj[attr]}`);
-  }
+  const sdata = [] as any;
+  Object.keys(paramObj).forEach((item) => {
+    sdata.push(`${item}=${paramObj[item]}`);
+  });
   return sdata.join('&');
 }
 
@@ -22,16 +21,26 @@ export default function reqUtil(options: Iparam) {
     const requestOptions: any = {
       method: options.method,
       url: options.url,
+      headers: {
+        token: localStorage.getItem('token'),
+      },
     };
-    if (options.method === 'get') {
-      requestOptions.url = requestOptions.url +=
-        '?' + fnPureFormateObjToParamStr(options.params);
-    } else {
-      requestOptions.data = options.data;
+    if (!options.data) {
+      options.data = {};
+    }
+    if (options.data.extUrl) {
+      requestOptions.url += options.data.extUrl;
+    }
+    if (options.data.params) {
+      requestOptions.url +=
+        '?' + fnPureFormateObjToParamStr(options.data.params);
+    }
+    if (options.data.data) {
+      requestOptions.data = options.data.data;
     }
     axios(requestOptions)
       .then((res) => {
-        if (res.data.data.result.code === 200) {
+        if (res.data.data.code === 200) {
           resolve(res.data.data.result);
         } else {
           vue.$message.warning(res.data.data.result.msg);

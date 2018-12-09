@@ -183,6 +183,7 @@ export default class Home extends Vue {
       .then((res: any) => {
         console.log(res);
         localStorage.setItem('token', res.token);
+        this.$store.commit('UPDATE_PROFILE', res.user);
         this.$message.success('登录成功');
       })
       .catch((err: any) => {

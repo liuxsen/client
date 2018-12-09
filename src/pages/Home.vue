@@ -5,12 +5,15 @@
         .text-right
       el-container
         el-aside(width="200px")
-          el-menu(:default-opends="['1']")
+          el-menu(:default-opends="['1-1']", @select="fnHandleSelect" default-active="1-1" background-color="#333333", text-color="#ffffff")
             el-submenu(index="1")
-              template(slot="title") 导航一
+              template(slot="title") 绩效
               el-menu-item-group
-                el-menu-item(index="1-1") 选项1
-                el-menu-item(index="1-2") 选项1
+                el-menu-item(index="1-1") 员工管理
+                el-menu-item(index="1-2") 提成设置
+                el-menu-item(index="1-3") 提成报表
+                el-menu-item(index="1-4") 业绩报表
+                el-menu-item(index="1-5") 工资报表
         el-container
           el-main
             div.h-750.fs-14
@@ -26,7 +29,11 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component({
   components: {},
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  private fnHandleSelect(index: number, indexPath: string) {
+    console.log(index, indexPath);
+  }
+}
 </script>
 
 <style lang="scss">

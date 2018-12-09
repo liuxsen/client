@@ -5,11 +5,8 @@ export class Profile extends BaseApi {
   private sLoginUrl: string = '/api/profile/login';
   private sGetEmailCodeUrl: string = '/api/profile/email';
   constructor() {
-    super();
+    super('/api/profile');
     this.createdUrl = '/api/profile/register';
-    this.deleteUrl = '/api/profile';
-    this.updateUrl = '/api/profile';
-    this.retreiveUrl = '/api/profile';
   }
   public login(options: any) {
     return reqUtil({
